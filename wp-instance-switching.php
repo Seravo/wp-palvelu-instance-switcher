@@ -42,6 +42,7 @@ class instance_switching {
   */  
   public function __construct(){
 
+    add_action( 'admin_init', array( $this, 'wpis_set_instance_cookie' ),999 );
     add_action( 'admin_bar_menu', array( $this, 'wpis_modify_admin_bar' ),999 );
     
   }
@@ -55,22 +56,32 @@ class instance_switching {
     if ( !is_admin_bar_showing() ) {
 			return;
 		}
+      $id = 'wpis';
 
-    $id = 'wpis';
-      
-    $wp_admin_bar->add_menu(array('id' => $id, 'title' => __('Switch Instance'), 'href' => '/'));
+    $current_instance = $_COOKIE['instance'];
+
+    //setcookie("asdasdsd", $value,time()+3600);
+
+    //get current instance here
+    $wp_admin_bar->add_menu(array('id' => $id, 'title' => $current_instance, 'href' => '/'));
   
     //get number of instances here and add submenu item for each one, with the desired functionality
     $wp_admin_bar->add_menu(array('parent' => $id, 'title' => __('Instance'), 'id' => 'instance', 'href' => '/', 'meta' => array('target' => '_blank')));
+    $wp_admin_bar->add_menu(array('parent' => $id, 'title' => __('Instance2'), 'id' => 'instance2', 'href' => '/', 'meta' => array('target' => '_blank')));
+  }
+
+  public function wpis_set_instance_cookie(){
+
+      $value = 'TESTING';
+      setcookie( "instance", $value, time() + (86400 * 7) );
 
   }
+
+
 }
 
 
 global $instance_switching;
 
 $instance_switching = new instance_switching;
-
-
-
 ?>
