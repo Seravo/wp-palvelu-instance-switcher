@@ -56,14 +56,12 @@ class instance_switching {
 			return;
 		}
 
-    $args = array(
-		'id'    => 'instance_switch',
-		'title' => 'Switch Instance',
-		'href'  => 'http://google.com',
-		'meta'  => array( 'class' => 'my-toolbar-page' )
-	);
-
-    $wp_admin_bar->add_node( $args );
+    $id = 'wpis';
+      
+    $wp_admin_bar->add_menu(array('id' => $id, 'title' => __('Switch Instance'), 'href' => '/'));
+  
+    //get number of instances here and add submenu item for each one, with the desired functionality
+    $wp_admin_bar->add_menu(array('parent' => $id, 'title' => __('Instance'), 'id' => 'instance', 'href' => '/', 'meta' => array('target' => '_blank')));
 
   }
 }
