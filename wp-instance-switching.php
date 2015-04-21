@@ -43,11 +43,15 @@ class instance_switching {
   public function __construct(){
 
 
-    add_action( 'admin_init', array( $this, 'wpis_set_instance_cookie' ),999 );
+    //add_action( 'admin_init', array( $this, 'wpis_set_instance_cookie' ),999 );
     add_action( 'admin_bar_menu', array( $this, 'wpis_modify_admin_bar' ),999 );
+    add_action( 'wp_ajax_wpis_change_container', array( $this, 'change_wp_container' ) );
     
   }
 
+	/**
+	 * Create the menu itself 
+	 */
 
   public function wpis_modify_admin_bar( WP_Admin_Bar $wp_admin_bar ){
 
@@ -59,36 +63,42 @@ class instance_switching {
 		}
 
     $id = 'wpis';
-    $current_instance = $_COOKIE['instance'];
+    $current_instance = getenv('CONTAINER');
 
     //add functionality to get an array of instances
-    $instances = array('TEST1','TEST2','TEST3');
+    $instances = array('e256bd','834167','641daa');
 
     //create the parent menu here
     $wp_admin_bar->add_menu(array('id' => $id, 'title' => $current_instance, 'href' => '/'));
     //for every instance create a menu entry
     //add functionality to switch instances ( select instance ->set cookie -> refresh page)
     foreach($instances as $instance){ 
-      $wp_admin_bar->add_menu(array('parent' => $id, 'title' => $instance, 'id' => $instance, 'href' => '/instance=123123', 'meta' => array('target' => '_blank')));
+      $wp_admin_bar->add_menu(array('parent' => $id, 'title' => $instance, 'id' => $instance, 'href' => '#', 'meta' => array('onclick' => 'document.cookie="shadow='.$instance.'";')));
     }
   }
 
+	/**
+	 * Modify the instance cookie 
+	 */
+
   public function wpis_set_instance_cookie(){
+		
+		
+		//$value = getenv('CONTAINER');
+		//setcookie('shadow', 'tari_e256bd', time()+3600); 
+		
+		
+	}
 
-  //add functionality to check if cookie is already set
-  //add functionality to get the current instance
-  $value=gethostname();
-
-  //add functionality to get current instance here, even when the cookie is not set  
-
-  setcookie( 'instance', $value, time() + (86400 * 7) );
-  }
 
 
 }
+
+
 
 
 global $instance_switching;
 
 $instance_switching = new instance_switching;
 ?>
+
