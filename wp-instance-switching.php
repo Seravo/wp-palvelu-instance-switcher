@@ -46,7 +46,7 @@ class instance_switching {
     //add_action( 'admin_init', array( $this, 'wpis_set_instance_cookie' ),999 );
     add_action( 'admin_bar_menu', array( $this, 'wpis_modify_admin_bar' ),999 );
     add_action( 'wp_ajax_wpis_change_container', array( $this, 'change_wp_container' ) );
-    
+        
   }
 
 	/**
@@ -70,32 +70,12 @@ class instance_switching {
 
     //create the parent menu here
     $wp_admin_bar->add_menu(array('id' => $id, 'title' => $current_instance, 'href' => '/'));
-    //for every instance create a menu entry
-    //add functionality to switch instances ( select instance ->set cookie -> refresh page)
+    
     foreach($instances as $instance){ 
       $wp_admin_bar->add_menu(array('parent' => $id, 'title' => $instance, 'id' => $instance, 'href' => '#', 'meta' => array('onclick' => 'document.cookie="shadow='.$instance.'";')));
     }
   }
-
-	/**
-	 * Modify the instance cookie 
-	 */
-
-  public function wpis_set_instance_cookie(){
-		
-		
-		//$value = getenv('CONTAINER');
-		//setcookie('shadow', 'tari_e256bd', time()+3600); 
-		
-		
-	}
-
-
-
 }
-
-
-
 
 global $instance_switching;
 
