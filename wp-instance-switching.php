@@ -40,7 +40,18 @@ class instance_switching {
   /**
   * Do the necessary initializations here
   */  
-  public function __construct(){
+  
+	public static function getInstance() {
+		static $instance = null;
+		if (null === $instance) {
+			$instance = new instance_switching();
+    }
+		return $instance;
+    }
+  
+  
+  
+  protected function __construct(){
 
 
     //add_action( 'admin_init', array( $this, 'wpis_set_instance_cookie' ),999 );
@@ -66,7 +77,7 @@ class instance_switching {
     $current_instance = getenv('CONTAINER');
 
     //add functionality to get an array of instances
-    $instances = array('e256bd','59ac86');
+    $instances = array('*','*');
 
     //create the parent menu here
     $wp_admin_bar->add_menu(array('id' => $id, 'title' => $current_instance, 'href' => '#'));
@@ -76,27 +87,20 @@ class instance_switching {
       $wp_admin_bar->add_menu(array('parent' => $id, 'title' => $instance, 'id' => $instance, 'href' => '#', 'meta' => array('onclick' => 'document.cookie="shadow='.$instance.';domain=.seravo.fi;path=/";window.location.reload(true);')));
     }
   }
+	 //prevent default behaviour
+	private function __clone(){}
 
-	/**
-	 * Modify the instance cookie 
-	 */
-
-  /*public function wpis_set_instance_cookie(){
-		
-		
-		//$value = getenv('CONTAINER');
-		//setcookie('shadow', 'tari_e256bd', time()+3600); 
-		
-		
-	}*/
-
+	private function __wakeup(){}
 
 }
 
 
 
 
-global $instance_switching;
+/*global $instance_switching;
 
 $instance_switching = new instance_switching;
+*/
+$instance_switching = instance_switching::getInstance();
+
 ?>
