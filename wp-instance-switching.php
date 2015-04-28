@@ -41,7 +41,7 @@ class instance_switching {
   * Do the necessary initializations here
   */  
   
-	public static function getInstance() {
+	public static function get_instance() {
 		static $instance = null;
 		if (null === $instance) {
 			$instance = new instance_switching();
@@ -57,8 +57,20 @@ class instance_switching {
     //add_action( 'admin_init', array( $this, 'wpis_set_instance_cookie' ),999 );
     add_action( 'admin_bar_menu', array( $this, 'wpis_modify_admin_bar' ),999 );
     add_action( 'wp_ajax_wpis_change_container', array( $this, 'change_wp_container' ) );
+    add_action( 'admin_enqueue_scripts', array( $this, 'wpis_init_scripts' ),999);
+    
     
   }
+
+	
+	public function wpis_init_scripts(){
+		
+		wp_register_script( 'wpisjs', plugins_url( '/script/wpis.js' , __FILE__), null, null, true );
+		wp_enqueue_script( 'wpisjs' );
+		
+	}
+
+
 
 	/**
 	 * Create the menu itself 
@@ -75,16 +87,15 @@ class instance_switching {
 
     $id = 'wpis';
     $current_instance = getenv('CONTAINER');
-
+		$domain = '.seravo.fi';
     //add functionality to get an array of instances
-    $instances = array('*','*');
+    $instances = array('e256bd','59ac86');
 
     //create the parent menu here
     $wp_admin_bar->add_menu(array('id' => $id, 'title' => $current_instance, 'href' => '#'));
     //for every instance create a menu entry
-    //add functionality to switch instances ( select instance ->set cookie -> refresh page)
     foreach($instances as $instance){ 
-      $wp_admin_bar->add_menu(array('parent' => $id, 'title' => $instance, 'id' => $instance, 'href' => '#', 'meta' => array('onclick' => 'document.cookie="shadow='.$instance.';domain=.seravo.fi;path=/";window.location.reload(true);')));
+      $wp_admin_bar->add_menu(array('parent' => $id, 'title' => $instance, 'id' => $instance, 'href' => '#', 'meta' => array('onclick' => 'wpisSaveCookies("'.$instance.'","'.$domain.'");')));
     }
   }
 	 //prevent default behaviour
@@ -93,14 +104,14 @@ class instance_switching {
 	private function __wakeup(){}
 
 }
+/*
 
 
-
-
+*/
 /*global $instance_switching;
 
 $instance_switching = new instance_switching;
 */
-$instance_switching = instance_switching::getInstance();
+$instance_switching = instance_switching::get_instance();
 
 ?>
