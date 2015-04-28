@@ -62,12 +62,18 @@ class instance_switching {
     
   }
 
+	/**
+	 * Load plugin specific scripts
+	 */
 	
 	public function wpis_init_scripts(){
 		
+		wp_register_script( 'js.cookie', plugins_url( '/script/js.cookie.js' , __FILE__), null, null, true );
+		wp_register_script( 'md5.min', plugins_url( '/script/md5.min.js' , __FILE__), null, null, true );
 		wp_register_script( 'wpisjs', plugins_url( '/script/wpis.js' , __FILE__), null, null, true );
+		wp_enqueue_script( 'md5.min' );
+		wp_enqueue_script( 'js.cookie' );
 		wp_enqueue_script( 'wpisjs' );
-		
 	}
 
 
@@ -89,7 +95,7 @@ class instance_switching {
     $current_instance = getenv('CONTAINER');
 		$domain = '.seravo.fi';
     //add functionality to get an array of instances
-    $instances = array('e256bd','59ac86');
+    $instances = array('*','*');
 
     //create the parent menu here
     $wp_admin_bar->add_menu(array('id' => $id, 'title' => $current_instance, 'href' => '#'));
