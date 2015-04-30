@@ -47,8 +47,6 @@ class instance_switching {
     return $instance;
   }
   
-  
-  
   protected function __construct(){
     //add_action( 'admin_init', array( $this, 'wpis_set_instance_cookie' ),999 );
     add_action( 'admin_bar_menu', array( $this, 'wpis_modify_admin_bar' ),999 );
@@ -66,8 +64,6 @@ class instance_switching {
     wp_enqueue_script( 'js.cookie' );
     wp_enqueue_script( 'wpisjs' );
   }
-
-
 
   /**
    * Create the menu itself 
@@ -120,5 +116,3 @@ class instance_switching {
 $instance_switching = new instance_switching;
 */
 $instance_switching = instance_switching::get_instance();
-
-
