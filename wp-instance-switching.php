@@ -37,37 +37,32 @@ License:     BSD 2-Clause
 
 
 class instance_switching {
+
   /**
   * Do the necessary initializations here
   */  
-  
 	public static function get_instance() {
 		static $instance = null;
 		if (null === $instance) {
 			$instance = new instance_switching();
     }
 		return $instance;
-    }
+  }
   
   
   
   protected function __construct(){
-
-
     //add_action( 'admin_init', array( $this, 'wpis_set_instance_cookie' ),999 );
     add_action( 'admin_bar_menu', array( $this, 'wpis_modify_admin_bar' ),999 );
     add_action( 'wp_ajax_wpis_change_container', array( $this, 'change_wp_container' ) );
     add_action( 'admin_enqueue_scripts', array( $this, 'wpis_init_scripts' ),999);
-    
-    
   }
 
 	/**
 	 * Load plugin specific scripts
 	 */
 	
-	public function wpis_init_scripts(){
-		
+	public function wpis_init_scripts(){		
 		wp_register_script( 'js.cookie', plugins_url( '/script/js.cookie.js' , __FILE__), null, null, true );
 		wp_register_script( 'md5.min', plugins_url( '/script/md5.min.js' , __FILE__), null, null, true );
 		wp_register_script( 'wpisjs', plugins_url( '/script/wpis.js' , __FILE__), null, null, true );
@@ -82,8 +77,7 @@ class instance_switching {
 	 * Create the menu itself 
 	 */
 
-  public function wpis_modify_admin_bar( WP_Admin_Bar $wp_admin_bar ){
-
+  public function wpis_modify_admin_bar( WP_Admin_Bar $wp_admin_bar ){		
     if ( !function_exists( 'is_admin_bar_showing' ) ) {
 			return;
 		}
@@ -94,21 +88,35 @@ class instance_switching {
     $id = 'wpis';
     $current_instance = getenv('CONTAINER');
 		$domain = '.seravo.fi';
+    
+    //fix to get site url instead of hardcoded url
+    $hashed_url = md5('http://tari.seravo.fi');
+    
     //add functionality to get an array of instances
-    $instances = array('*','*');
-
+    $instances = array('e256bd','59ac86');
+		//capture the session cookies and store them
+		$logged_in_cookie = $_COOKIE['wordpress_logged_in_'.$hashed_url];
+		//$sec_cookie_1 = $_COOKIE['wordpress_sec_'.$hashed_url];
+		
+		
+		//error_log($session_cookie);
     //create the parent menu here
     $wp_admin_bar->add_menu(array('id' => $id, 'title' => $current_instance, 'href' => '#'));
     //for every instance create a menu entry
     foreach($instances as $instance){ 
-      $wp_admin_bar->add_menu(array('parent' => $id, 'title' => $instance, 'id' => $instance, 'href' => '#', 'meta' => array('onclick' => 'wpisSaveCookies("'.$instance.'","'.$domain.'");')));
+      $wp_admin_bar->add_menu(array
+      (	'parent' => $id,
+				'title' => $instance,
+				'id' => $instance,
+				'href' => '#',
+				'meta' =>
+					array('onclick' =>'wpisSaveCookie("wordpress_lg_'.$hashed_url.'","'.$logged_in_cookie.'","'.$domain.'");wpisSetShadow("'.$instance.'","'.$domain.'");')));
     }
   }
-	 //prevent default behaviour
+
+	//prevent default behaviour
 	private function __clone(){}
-
 	private function __wakeup(){}
-
 }
 /*
 
