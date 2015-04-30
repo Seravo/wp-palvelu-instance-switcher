@@ -64,9 +64,7 @@ class instance_switching {
 	
 	public function wpis_init_scripts(){		
 		wp_register_script( 'js.cookie', plugins_url( '/script/js.cookie.js' , __FILE__), null, null, true );
-		wp_register_script( 'md5.min', plugins_url( '/script/md5.min.js' , __FILE__), null, null, true );
 		wp_register_script( 'wpisjs', plugins_url( '/script/wpis.js' , __FILE__), null, null, true );
-		wp_enqueue_script( 'md5.min' );
 		wp_enqueue_script( 'js.cookie' );
 		wp_enqueue_script( 'wpisjs' );
 	}
@@ -89,17 +87,18 @@ class instance_switching {
     $current_instance = getenv('CONTAINER');
 		$domain = '.seravo.fi';
     
-    //fix to get site url instead of hardcoded url
-    $hashed_url = md5('http://tari.seravo.fi');
-    
     //add functionality to get an array of instances
-    $instances = array('e256bd','59ac86');
+    $instances = array('*','*');
 		//capture the session cookies and store them
-		$logged_in_cookie = $_COOKIE['wordpress_logged_in_'.$hashed_url];
-		//$sec_cookie_1 = $_COOKIE['wordpress_sec_'.$hashed_url];
 		
+		if(isset($_COOKIE['wordpress_logged_in_'.$hashed_url])){		
+			$logged_in_cookie = $_COOKIE['wordpress_logged_in_'.$hashed_url];
+			$sec_cookie_1 = $_COOKIE['wordpress_sec_'.$hashed_url];
+		} else{
+			$logged_in_cookie = NULL;
+			$sec_cookie_1 = NULL;
+		}
 		
-		//error_log($session_cookie);
     //create the parent menu here
     $wp_admin_bar->add_menu(array('id' => $id, 'title' => $current_instance, 'href' => '#'));
     //for every instance create a menu entry
@@ -110,8 +109,9 @@ class instance_switching {
 				'id' => $instance,
 				'href' => '#',
 				'meta' =>
-					array('onclick' =>'wpisSaveCookie("wordpress_lg_'.$hashed_url.'","'.$logged_in_cookie.'","'.$domain.'");wpisSetShadow("'.$instance.'","'.$domain.'");')));
-    }
+					array('onclick' =>'wpisSetShadow("'.$instance.'","'.$domain.'");')));
+					
+		    }
   }
 
 	//prevent default behaviour
