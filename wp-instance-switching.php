@@ -83,14 +83,18 @@ class instance_switching {
 
     $id = 'wpis';
     $current_instance = getenv('CONTAINER');
-    $domain = '.seravo.fi';
-    
+    $domain = $_SERVER['HTTP_HOST'];
+    $domain_index=strpos($domain,'.');
+    //chop chop
+    for($x=0;$x<$domain_index;$x++){
+        $domain = substr($domain, 1);
+    }
     //add functionality to get an array of instances
-    $instances = array('e256bd','59ac86');
+    $instances = array('*','*');
     
     //create the parent menu here
     $wp_admin_bar->add_menu(array('id' => $id, 'title' => $current_instance, 'href' => '#'));
-    //for every instance create a menu entry
+    //for every instance create a menu entrys
     foreach($instances as $instance){ 
       $wp_admin_bar->add_menu(array
       ( 'parent' => $id,
