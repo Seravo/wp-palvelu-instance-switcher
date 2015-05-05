@@ -4,7 +4,7 @@ A Wordpress plugin for switching between Wordpress instances in WP-palvelu.fi
 
 ##Installation
 
-Create a folder under your */wp-plugins directory with the name *wp-instance-switching*
+Create a folder under your */wp-plugins* -directory with the name *wp-instance-switching*
 and copy the repo there.
 
 **OR**

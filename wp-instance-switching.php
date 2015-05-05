@@ -34,7 +34,6 @@ License:     BSD 2-Clause
 
 */
 
-
 class instance_switching {
 
   /**
@@ -81,9 +80,10 @@ class instance_switching {
     if ( !is_admin_bar_showing() ) {
       return;
     }
-
-    if(current_user_can( 'activate_plugins' ) && is_admin()){
-          
+    //check if user has admin privileges
+    if(!current_user_can( 'activate_plugins' )){
+      return;
+     }   
     $id = 'wpis';
     $current_instance = getenv('CONTAINER');
     $domain = $_SERVER['HTTP_HOST'];
@@ -111,20 +111,12 @@ class instance_switching {
           
         }
   }
-  }
 
   //prevent default behaviour
   private function __clone(){}
   private function __wakeup(){}
 }
-/*
 
-
-*/
-/*global $instance_switching;
-
-$instance_switching = new instance_switching;
-*/
 $instance_switching = instance_switching::get_instance();
 
 
