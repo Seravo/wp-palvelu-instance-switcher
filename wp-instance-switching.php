@@ -34,6 +34,7 @@ License:     BSD 2-Clause
 
 */
 
+
 class instance_switching {
 
   /**
@@ -46,6 +47,8 @@ class instance_switching {
     }
     return $instance;
   }
+  
+  
   
   protected function __construct(){
     //add_action( 'admin_init', array( $this, 'wpis_set_instance_cookie' ),999 );
@@ -65,6 +68,8 @@ class instance_switching {
     wp_enqueue_script( 'wpisjs' );
   }
 
+
+
   /**
    * Create the menu itself 
    */
@@ -77,6 +82,8 @@ class instance_switching {
       return;
     }
 
+    if(current_user_can( 'activate_plugins' ) && is_admin()){
+          
     $id = 'wpis';
     $current_instance = getenv('CONTAINER');
     $domain = $_SERVER['HTTP_HOST'];
@@ -85,8 +92,10 @@ class instance_switching {
     for($x=0;$x<$domain_index;$x++){
         $domain = substr($domain, 1);
     }
+    
+    
     //add functionality to get an array of instances
-    $instances = array('*','*');
+    $instances = array(PRODUCTION_ENV,STAGING_ENV);
     
     //create the parent menu here
     $wp_admin_bar->add_menu(array('id' => $id, 'title' => $current_instance, 'href' => '#'));
@@ -102,6 +111,7 @@ class instance_switching {
           
         }
   }
+  }
 
   //prevent default behaviour
   private function __clone(){}
@@ -116,3 +126,5 @@ class instance_switching {
 $instance_switching = new instance_switching;
 */
 $instance_switching = instance_switching::get_instance();
+
+
