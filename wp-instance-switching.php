@@ -82,7 +82,7 @@ class instance_switching {
       return;
      }   
    
-    $instances = array('production' => PRODUCTION_ENV, 'shadow-1' => STAGING_ENV);
+    $instances = $this->get_defined_instances();//array('production' => PRODUCTION_ENV, 'shadow-1' => STAGING_ENV);
     $id = 'wpis';
     $current_instance = getenv('CONTAINER');
     
@@ -94,7 +94,7 @@ class instance_switching {
     //define the name of the current instance to be shown in the bar
     foreach( $instances as $key => $instance ){
       if($current_instance == $instance){
-        $current_instance = $key;
+        $current_instance = substr($key, 5);
       }
     }
     
@@ -107,12 +107,12 @@ class instance_switching {
     }
     
     //create the parent menu here
-    $wp_admin_bar->add_menu(array('id' => $id, 'title' => $current_instance, 'href' => '#'));
+    $wp_admin_bar->add_menu(array('id' => $id, 'title' => 'Current Instance: ' . $current_instance, 'href' => '#'));
     //for every instance create a menu entrys
     foreach($instances as $key => $instance){ 
       $wp_admin_bar->add_menu(array
       ( 'parent' => $id,
-        'title' => $key,
+        'title' => substr($key, 5),
         'id' => $instance,
         'href' => '#',
         'meta' =>
@@ -121,6 +121,17 @@ class instance_switching {
         }
   }
 
+  private function get_defined_instances(){
+    //get the list of all available constants
+    $constants = get_defined_constants();
+    //get the wpis specific constants
+    foreach( $constants as $key => $constant){
+      if(!preg_match('#WPIS-#',$key)){
+        unset($constants[$key]);
+      }
+    }
+    return $constants;
+  }
   //prevent default behaviour
   private function __clone(){}
   private function __wakeup(){}

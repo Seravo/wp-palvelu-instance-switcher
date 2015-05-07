@@ -9,29 +9,15 @@ and copy the repo there.
 
 **OR**
 
-Create a zip-archive with the aforementioned directory structure
+Create a zip-archive with the aforementioned directory structure.
 
-Add the following to your wp-config.php:
-``` 
-  $siteurl = $_SERVER['HTTP_HOST'];
-  if ( $siteurl )
-  define( 'COOKIEHASH', md5( $siteurl ) . getenv('CONTAINER') );
-  else
-  define( 'COOKIEHASH', '' );
-
-  define( 'PRODUCTION_ENV', 'YOUR_DEFINITION_HERE' );
-  define( 'STAGING_ENV', 'YOUR_DEFINITION_HERE' );
+To add instances, you have to define them in *wp-config.php* in the following way:
 ```
-Please notice that the "YOUR_DEFINITION" is the HASH-part of your shadow cookie.
-
-The right way when the cookie name is *asd_123*:
-```
-define( 'PRODUCTION_ENV', '123' );
+define( 'WPIS-PRODUCTION', '1234aa' );
+define( 'WPIS-STAGING', '567bb' );
 
 ```
-The wrong way: 
+Use the "WPIS-" -prefix followed by the name of your instance to name the constants.
+Use the hash part of your container name to define the constant value. If the name of
+your container is "asdasd_123", use "123" to define the value.
 
-```
-define( 'PRODUCTION_ENV', 'asd_123' );
-
-```
