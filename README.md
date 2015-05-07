@@ -1,6 +1,6 @@
 #WP Instance switching
 
-A Wordpress plugin for switching between Wordpress instances in WP-palvelu.fi
+A Wordpress plugin for switching between WordPress instances in WP-palvelu.fi
 
 ##Installation
 
