@@ -9,8 +9,7 @@ and copy the repo there.
 
 **OR**
 
-Create a zip-archive with the directory structure described above and install the plugin
-via wp-admin.
+Create a zip-archive with the aforementioned directory structure
 
 Add the following to your wp-config.php:
 ``` 
@@ -22,4 +21,17 @@ Add the following to your wp-config.php:
 
   define( 'PRODUCTION_ENV', 'YOUR_DEFINITION_HERE' );
   define( 'STAGING_ENV', 'YOUR_DEFINITION_HERE' );
+```
+Please notice that the "YOUR_DEFINITION" is the HASH-part of your shadow cookie.
+
+The right way when the cookie name is *asd_123*:
+```
+define( 'PRODUCTION_ENV', '123' );
+
+```
+The wrong way: 
+
+```
+define( 'PRODUCTION_ENV', 'asd_123' );
+
 ```

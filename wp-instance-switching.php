@@ -34,6 +34,7 @@ License:     BSD 2-Clause
 
 */
 
+
 class instance_switching {
 
   /**
@@ -46,8 +47,6 @@ class instance_switching {
     }
     return $instance;
   }
-  
-  
   
   protected function __construct(){
     //add_action( 'admin_init', array( $this, 'wpis_set_instance_cookie' ),999 );
@@ -67,8 +66,6 @@ class instance_switching {
     wp_enqueue_script( 'wpisjs' );
   }
 
-
-
   /**
    * Create the menu itself 
    */
@@ -80,30 +77,42 @@ class instance_switching {
     if ( !is_admin_bar_showing() ) {
       return;
     }
-    //check if user has admin privileges
+
     if(!current_user_can( 'activate_plugins' )){
       return;
      }   
+   
+    $instances = array('production' => PRODUCTION_ENV, 'shadow-1' => STAGING_ENV);
     $id = 'wpis';
     $current_instance = getenv('CONTAINER');
+    
+    //"env_hash" made to "hash"
+    $instance_index = strpos($current_instance,'_') + 1;
+    for($x=0;$x<$instance_index;$x++){
+        $current_instance = substr($current_instance, 1);
+    }
+    //define the name of the current instance to be shown in the bar
+    foreach( $instances as $key => $instance ){
+      if($current_instance == $instance){
+        $current_instance = $key;
+      }
+    }
+    
     $domain = $_SERVER['HTTP_HOST'];
     $domain_index=strpos($domain,'.');
-    //chop chop
+    
+    //chop chop 
     for($x=0;$x<$domain_index;$x++){
         $domain = substr($domain, 1);
     }
     
-    
-    //add functionality to get an array of instances
-    $instances = array(PRODUCTION_ENV,STAGING_ENV);
-    
     //create the parent menu here
     $wp_admin_bar->add_menu(array('id' => $id, 'title' => $current_instance, 'href' => '#'));
     //for every instance create a menu entrys
-    foreach($instances as $instance){ 
+    foreach($instances as $key => $instance){ 
       $wp_admin_bar->add_menu(array
       ( 'parent' => $id,
-        'title' => $instance,
+        'title' => $key,
         'id' => $instance,
         'href' => '#',
         'meta' =>
@@ -118,5 +127,3 @@ class instance_switching {
 }
 
 $instance_switching = instance_switching::get_instance();
-
-
