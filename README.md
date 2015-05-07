@@ -11,6 +11,18 @@ and copy the repo there.
 
 Create a zip-archive with the aforementioned directory structure.
 
+Add this to your *wp-config.php*
+```
+$siteurl = $_SERVER['HTTP_HOST'];
+if ( $siteurl )
+    define( 'COOKIEHASH', md5( $siteurl ) . getenv('CONTAINER') );
+else
+    define( 'COOKIEHASH', '' );
+
+define( 'WPIS-PRODUCTION', 'e256bd' );
+define( 'WPIS-STAGING', '59ac86' );
+```
+
 To add instances, you have to define them in *wp-config.php* in the following way:
 ```
 define( 'WPIS-PRODUCTION', '1234aa' );
