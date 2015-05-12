@@ -98,13 +98,7 @@ class instance_switching {
       }
     }
     
-    $domain = $_SERVER['HTTP_HOST'];
-    $domain_index=strpos($domain,'.');
-    
-    //chop chop 
-    for($x=0;$x<$domain_index;$x++){
-        $domain = substr($domain, 1);
-    }
+    $domain = "";//$this->get_domain( $_SERVER['HTTP_HOST'] );
     
     //create the parent menu here
     $wp_admin_bar->add_menu(array('id' => $id, 'title' => 'Current Instance: ' . $current_instance, 'href' => '#'));
@@ -116,7 +110,7 @@ class instance_switching {
         'id' => $instance,
         'href' => '#',
         'meta' =>
-          array('onclick' =>'wpisSetShadow("'.$instance.'","'.$domain.'");')));
+          array('onclick' =>'wpisSetShadow("'.$instance.'");')));
           
         }
   }
@@ -132,6 +126,24 @@ class instance_switching {
     }
     return $constants;
   }
+  /**
+   * Makes sure the domain is in right format 
+   */
+  
+  /*private function get_domain( $domain ){
+    $dot_count = substr_count($domain, '.');
+    if( $dot_count < 2 ){
+      
+      return $domain;
+    } else{
+      $domain_index=strpos($domain,'.');
+        for($x=0;$x<$domain_index;$x++){
+          $domain = substr($domain, 1);
+        }
+      return $domain;
+    }
+  }*/
+
   //prevent default behaviour
   private function __clone(){}
   private function __wakeup(){}
