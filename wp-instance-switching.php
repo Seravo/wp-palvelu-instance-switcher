@@ -101,7 +101,8 @@ class instance_switching {
     $domain = "";//$this->get_domain( $_SERVER['HTTP_HOST'] );
     
     //create the parent menu here
-    $wp_admin_bar->add_menu(array('id' => $id, 'title' => 'Current Instance: ' . $current_instance, 'href' => '#'));
+    $wp_admin_bar->add_menu(array('id' => $id, 'title' => $current_instance, 'href' => '#'));
+
     //for every instance create a menu entrys
     foreach($instances as $key => $instance){ 
       $wp_admin_bar->add_menu(array
