@@ -1,17 +1,13 @@
-#WP Instance switching
+# WP-palvelu.fi Instance Switcher
 
-A Wordpress plugin for switching between WordPress instances in WP-palvelu.fi
+A WordPress plugin for easily switching between WP-palvelu.fi instances
 
-##Installation
+## Installation
 
-Create a folder under your */wp-plugins* -directory with the name *wp-instance-switching*
-and copy the repo there.
+1. Clone this project to your wp-content/mu-plugins directory.
 
-**OR**
+2. Add this to your *wp-config.php*
 
-Create a zip-archive with the aforementioned directory structure.
-
-Add this to your *wp-config.php*
 ```
 $siteurl = $_SERVER['HTTP_HOST'];
 if ( $siteurl )
@@ -24,8 +20,8 @@ To add instances, you have to define them in *wp-config.php* in the following wa
 ```
 define( 'WPIS-PRODUCTION', '1234aa' );
 define( 'WPIS-STAGING', '567bb' );
-
 ```
+
 Use the "WPIS-" -prefix followed by the name of your instance to name the constants.
 Use the hash part of your container name to define the constant value. If the name of
 your container is "asdasd_123", use "123" to define the value.
