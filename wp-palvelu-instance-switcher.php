@@ -42,12 +42,20 @@ class WPP_Instance_Switcher {
     add_action( 'admin_bar_menu', array( $this, 'wpis_modify_admin_bar' ), 999 );
     add_action( 'wp_ajax_wpis_change_container', array( $this, 'change_wp_container' ) );
     add_action( 'admin_enqueue_scripts', array( $this, 'wpis_init_scripts' ), 999);
+    add_action( 'wp_enqueue_scripts', array( $this, 'wpis_init_scripts' ), 999);
   }
 
   /**
    * Load plugin specific scripts
    */
   public function wpis_init_scripts(){
+    if ( !function_exists( 'is_admin_bar_showing' ) ) {
+      return;
+    }
+    // use this within the admin bar
+    if ( !is_admin_bar_showing() ) {
+      return;
+    }
     wp_enqueue_script( 'wpisjs', plugins_url( '/script/wpis.js' , __FILE__), null, null, true );
   }
 
@@ -98,10 +106,7 @@ class WPP_Instance_Switcher {
          'parent' => $id,
          'title' => substr($key, 5),
          'id' => $instance,
-         'href' => '#',
-         'meta' => array(
-           'onclick' => "wpisSetShadow(\"$instance\");",
-         )
+         'href' => "#$instance",
        ));
      }
   }
