@@ -19,10 +19,9 @@ else
 To add instances, you have to define them in *wp-config.php* in the following way:
 ```
 define( 'WPIS-PRODUCTION', '1234aa' );
-define( 'WPIS-STAGING', '567bb' );
+define( 'WPIS-SHADOW', '567bb' );
 ```
 
 Use the "WPIS-" -prefix followed by the name of your instance to name the constants.
 Use the hash part of your container name to define the constant value. If the name of
 your container is "asdasd_123", use "123" to define the value.
-
