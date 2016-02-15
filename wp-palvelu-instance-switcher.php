@@ -56,7 +56,7 @@ class WPP_Instance_Switcher {
     if ( !is_admin_bar_showing() ) {
       return;
     }
-    wp_enqueue_script( 'wpisjs', plugins_url( '/script/wpis.js' , __FILE__), null, null, true );
+    wp_enqueue_script( 'wpisjs', plugins_url( '/script.js' , __FILE__), null, null, true );
     wp_enqueue_style( 'wpisjs', plugins_url( '/style.css' , __FILE__), null, null, 'all' );
   }
 
@@ -102,7 +102,6 @@ class WPP_Instance_Switcher {
       $menuclass = 'wpis-warning';
     }
 
-
     // create the parent menu here
     $wp_admin_bar->add_menu(array('id' => $id, 'title' => $current_instance, 'href' => '#', 'meta' => array('class' => $menuclass)));
 
@@ -115,7 +114,16 @@ class WPP_Instance_Switcher {
          'href' => "#$instance",
        ));
      }
-  }
+
+    // Last item is always to exit shadow
+    $wp_admin_bar->add_menu(array(
+      'parent' => $id,
+      'title' => 'Exit shadow',
+      'id' => 0,
+      'href' => "#exit",
+    ));
+
+    }
 
   private function get_defined_instances(){
     // get the list of all available constants
