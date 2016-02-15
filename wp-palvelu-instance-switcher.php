@@ -57,6 +57,7 @@ class WPP_Instance_Switcher {
       return;
     }
     wp_enqueue_script( 'wpisjs', plugins_url( '/script/wpis.js' , __FILE__), null, null, true );
+    wp_enqueue_style( 'wpisjs', plugins_url( '/style.css' , __FILE__), null, null, 'all' );
   }
 
   /**
@@ -97,8 +98,13 @@ class WPP_Instance_Switcher {
 
     $domain = ""; //$this->get_domain( $_SERVER['HTTP_HOST'] );
 
+    if ( getenv('WP_ENV') && getenv('WP_ENV') != 'production') {
+      $menuclass = 'wpis-warning';
+    }
+
+
     // create the parent menu here
-    $wp_admin_bar->add_menu(array('id' => $id, 'title' => $current_instance, 'href' => '#'));
+    $wp_admin_bar->add_menu(array('id' => $id, 'title' => $current_instance, 'href' => '#', 'meta' => array('class' => $menuclass)));
 
     // for every instance create a menu entries
     foreach($instances as $key => $instance) {
