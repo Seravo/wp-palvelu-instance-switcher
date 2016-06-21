@@ -64,7 +64,6 @@ class WPP_Instance_Switcher {
    * Create the menu itself
    */
   public function wpis_modify_admin_bar( WP_Admin_Bar $wp_admin_bar ){
-
     if ( !function_exists( 'is_admin_bar_showing' ) ) {
       return;
     }
@@ -77,9 +76,12 @@ class WPP_Instance_Switcher {
     // check permissions
     if(!current_user_can( 'activate_plugins' )){
       return;
-     }
+    }
 
-    $instances = $this->get_defined_instances();
+    if( empty( $instances = $this->get_defined_instances() ) ) {
+      return;
+    }
+
     $id = 'wpis';
     $current_instance = getenv('CONTAINER');
 
