@@ -1,12 +1,33 @@
 # WP-palvelu.fi Instance Switcher
+[![Latest Stable Version](https://poser.pugx.org/seravo/wp-palvelu-instance-switcher/v/stable)](https://packagist.org/packages/seravo/wp-palvelu-instance-switcher) [![Total Downloads](https://poser.pugx.org/seravo/wp-palvelu-instance-switcher/downloads)](https://packagist.org/packages/seravo/wp-palvelu-instance-switcher) [![Latest Unstable Version](https://poser.pugx.org/seravo/wp-palvelu-instance-switcher/v/unstable)](https://packagist.org/packages/seravo/wp-palvelu-instance-switcher) [![License](https://poser.pugx.org/seravo/wp-palvelu-instance-switcher/license)](https://packagist.org/packages/seravo/wp-palvelu-instance-switcher)
 
-A WordPress plugin for easily switching between WP-palvelu.fi instances
+A WordPress must-use plugin for easily switching between WP-palvelu.fi shadows
 
 ## Installation
 
-1. Clone this project to your wp-content/mu-plugins directory.
+### The Composer Way (preferred)
 
-2. Add these lines to your *wp-config.php*
+Install the plugin via [Composer](https://getcomposer.org/)
+```
+composer require seravo/wp-palvelu-instance-switcher
+```
+
+Activate the plugin
+```
+wp plugin activate wp-palvelu-instance-switcher
+```
+
+### The Old Fashioned Way
+
+You can also install the plugin by directly uploading the zip file as instructed below:
+
+1. [Download the plugin](archive/master.zip)
+2. Upload to the plugin to /wp-content/plugins/ via the WordPress plugin uploader or your preferred method
+3. Activate the plugin
+
+## Configuration
+
+Add these lines to your *wp-config.php*
 
 ```
 $wpis_siteurl = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : getenv('HTTPS_DOMAIN_ALIAS');
