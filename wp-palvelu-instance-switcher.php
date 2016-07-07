@@ -161,7 +161,7 @@ class WPP_Instance_Switcher {
     $wp_admin_bar->add_menu(array(
       'parent' => $id,
       'title' => __('Exit Shadow', 'wpp-instance-switcher'),
-      'id' => 0,
+      'id' => 'exit-shadow',
       'href' => "#exit",
     ));
   }
