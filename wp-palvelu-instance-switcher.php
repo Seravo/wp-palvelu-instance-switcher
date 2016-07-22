@@ -62,6 +62,7 @@ class WPP_Instance_Switcher {
     if ( getenv('WP_ENV') && getenv('WP_ENV') != 'production' ) {
       add_action('admin_footer', array( $this, 'render_shadow_indicator' ) );
       add_action('wp_footer', array( $this, 'render_shadow_indicator' ) );
+      add_action('login_footer', array( $this, 'render_shadow_indicator' ) );
     }
   }
 
