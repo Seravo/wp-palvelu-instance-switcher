@@ -172,9 +172,9 @@ class WPP_Instance_Switcher {
    */
   public function render_shadow_indicator() {
 ?>
-<style>#shadow-indicator { font-family: Arial, sans-serif; position: fixed; bottom: 0; left: 0; right: 0; width: 100%; color: #fff; background: #cc0000; z-index: 3000; font-size:16px; line-height: 1; text-align: center; padding: 5px }</style>
+<style>#shadow-indicator { font-family: Arial, sans-serif; position: fixed; bottom: 0; left: 0; right: 0; width: 100%; color: #fff; background: #cc0000; z-index: 3000; font-size:16px; line-height: 1; text-align: center; padding: 5px } #shadow-indicator a.clearlink { text-decoration: underline; color: #fff; }</style>
 <div id="shadow-indicator">
-<?php echo wp_sprintf( __('You are currently in %s.', 'wpp-instance-switcher'), getenv( 'WP_ENV' ) ); ?>
+<?php echo wp_sprintf( __('You are currently in %s.', 'wpp-instance-switcher'), getenv( 'WP_ENV' ) ); ?> <a class="clearlink" href="/?wpp_shadow=clear"><?php _e('Exit', 'wpp-instance-switcher'); ?></a>
 </div>
 <?php
   }
