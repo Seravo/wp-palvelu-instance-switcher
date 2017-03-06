@@ -63,6 +63,7 @@ class WPP_Instance_Switcher {
       add_action('admin_footer', array( $this, 'render_shadow_indicator' ) );
       add_action('wp_footer', array( $this, 'render_shadow_indicator' ) );
       add_action('login_footer', array( $this, 'render_shadow_indicator' ) );
+      add_action('admin_notices', array( $this, 'render_shadow_admin_notice' ) );
     }
   }
 
@@ -177,6 +178,17 @@ class WPP_Instance_Switcher {
 <?php echo wp_sprintf( __('You are currently in %s.', 'wpp-instance-switcher'), getenv( 'WP_ENV' ) ); ?> <a class="clearlink" href="/?wpp_shadow=clear"><?php _e('Exit', 'wpp-instance-switcher'); ?></a>
 </div>
 <?php
+  }
+
+  /**
+   * Let plugins or themes display admin notice when inside a shadow
+   */
+  public function render_shadow_admin_notice( $current_screen ) {
+    $current_screen = get_current_screen();
+    $admin_notice_content = apply_filters( 'wpp_instance_switcher_admin_notice', '', $current_screen );
+    if(!empty($admin_notice_content)) {
+      echo $admin_notice_content;
+    }
   }
 
   /**

@@ -51,3 +51,12 @@ Use the "WPIS-" -prefix followed by the name of your instance to name the consta
 Use the hash part of your container name to define the constant value. If the name of
 your container is "asdasd_123", use "123" to define the value.
 
+## Filters
+
+You can insert your own admin notice for users that are in shadow
+```php
+function my_shadow_admin_notice($admin_notice, $current_screen) {
+  return '<div class="notice notice-error"><p>This is staging. All content edited here will be lost. Return to production to create or edit content.</p></div>';
+}
+add_filter( 'wpp_instance_switcher_admin_notice', 'my_shadow_admin_notice', 10, 2 );
+```
