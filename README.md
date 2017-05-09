@@ -3,53 +3,11 @@
 
 A WordPress must-use plugin for easily switching between WP-palvelu.fi shadows
 
-## Installation
+## THIS REPOSITORY IS DEPRECATED
 
-### The Composer Way (preferred)
+This plugin as of commit bfb019a923838bf60fbc3bad652c823303b09239 was merged into the [Seravo Plugin](https://github.com/Seravo/seravo-plugin), in pull request https://github.com/Seravo/seravo-plugin/pull/36.
 
-Install the plugin via [Composer](https://getcomposer.org/)
-```
-composer require seravo/wp-palvelu-instance-switcher
-```
-
-Activate the plugin
-```
-wp plugin activate wp-palvelu-instance-switcher
-```
-
-### The Old Fashioned Way
-
-You can also install the plugin by directly uploading the zip file as instructed below:
-
-1. [Download the plugin](archive/master.zip)
-2. Upload to the plugin to /wp-content/plugins/ via the WordPress plugin uploader or your preferred method
-3. Activate the plugin
-
-## Configuration
-
-Add these lines to your *wp-config.php*
-
-```php
-/**
- * WP-palvelu.fi Instance Switcher required configuration
- */
-$wpis_siteurl = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : getenv('HTTPS_DOMAIN_ALIAS');
-if ( $wpis_siteurl )
-  define( 'COOKIEHASH', md5( $wpis_siteurl ) . getenv('CONTAINER') );
-else
-  define( 'COOKIEHASH', '' );
-```
-
-To add instances, you have to define them in *wp-config.php* in the following way:
-```php
-define( 'WPIS-PRODUCTION', '1234aa' );
-define( 'WPIS-STAGING', '5678bb' );
-define( 'WPIS-DEVELOPMENT', '9012cc' );
-```
-
-Use the "WPIS-" -prefix followed by the name of your instance to name the constants.
-Use the hash part of your container name to define the constant value. If the name of
-your container is "asdasd_123", use "123" to define the value.
+All future development goes there and this repository will eventually be deleted in 2018 or so.
 
 ## Filters
 
